@@ -1,0 +1,1 @@
+Making the game container responsive was an easy fix. I noticed the fruit border was already behaving responsibly, so I looked at the differences between its CSS and that of the game container. The border just used vw and vh for width and height, so I copied this over and reduced it slightly. Now the game window resizes with the fruit border.

@@ -16,6 +16,12 @@ let timeElapsed = 0;
 let gridRows = 4;
 let gridCols = 4;
 
+let player = 0;
+const player1_score = document.getElementById("matches_1");
+const player2_score = document.getElementById("matches_2");
+const player1 = document.getElementById("player1");
+const player2 = document.getElementById("player2");
+
 // List of animal image filenames
 const animalImages = [
   "cat.png", "dog.png", "elephant.png", "fox.png", "lion.png",
@@ -82,6 +88,8 @@ function createGrid() {
     card.addEventListener("click", handleCardClick);
     gameGrid.appendChild(card);
   });
+
+  player1.style.background = "pink";
 }
 
 function handleCardClick(e) {
@@ -113,13 +121,19 @@ function checkForMatch() {
     card1.classList.add("matched");
     card2.classList.add("matched");
     flippedCards = [];
-    
+    if (player === 0) {
+      player1_score.textContent = parseInt(player1_score.textContent) + 1;
+    } else {
+      player2_score.textContent = parseInt(player2_score.textContent) + 1;
+    }
+
     // Check if all cards are matched
     if (document.querySelectorAll(".card.matched").length === cards.length) {
       clearInterval(timerInterval);
       alert(`Game completed in ${moves} moves and ${formatTime(timeElapsed)}!`);
     }
   } else {
+    changePlayer();
     setTimeout(() => {
       card1.classList.remove("flipped");
       card2.classList.remove("flipped");
@@ -146,6 +160,9 @@ function resetGameInfo() {
   moveCounter.textContent = moves;
   clearInterval(timerInterval); // ✅ Fix: Clear timer on game reset
   timer.textContent = "00:00";
+  player = 0;
+  player1_score.textContent = 0;
+  player2_score.textContent = 0;
 }
 
 restartBtn.addEventListener("click", () => {
@@ -154,3 +171,15 @@ restartBtn.addEventListener("click", () => {
   clearInterval(timerInterval); // ✅ Fix: Clear the timer on restart
   resetGameInfo();
 });
+
+function changePlayer() {
+  if (player === 0) {
+    player = 1;
+    player1.style.background = "none";
+    player2.style.background = "pink";
+  } else {
+    player = 0;
+    player1.style.background = "pink";
+    player2.style.background = "none";
+  }
+}
